@@ -1,5 +1,7 @@
 package de.ftscraft.ftsutils.items;
 
+import de.ftscraft.ftsutils.FTSUtils;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -17,6 +19,16 @@ public class ItemReader {
             return container.get(ItemBuilder.getSignKey(), PersistentDataType.STRING);
         }
         return null;
+    }
+
+    public static <T,A> A getPDC(ItemStack itemStack, String key, PersistentDataType<T,A> dataType) {
+        return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(FTSUtils.getInstance(), key), dataType);
+    }
+
+    public <T,A> void addPDC(ItemStack itemStack, String key, A thing, PersistentDataType<T,A> dataType) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(new NamespacedKey(FTSUtils.getInstance(), key), dataType, thing);
+        itemStack.setItemMeta(itemMeta);
     }
 
 }

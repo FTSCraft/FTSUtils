@@ -72,8 +72,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addPDCString(String key, String thing) {
-        itemMeta.getPersistentDataContainer().set(new NamespacedKey(FTSUtils.getInstance(), key), PersistentDataType.STRING, thing);
+    public <T,A> ItemBuilder addPDC(String key, A thing, PersistentDataType<T,A> dataType) {
+        itemMeta.getPersistentDataContainer().set(new NamespacedKey(FTSUtils.getInstance(), key), dataType, thing);
         return this;
     }
 
