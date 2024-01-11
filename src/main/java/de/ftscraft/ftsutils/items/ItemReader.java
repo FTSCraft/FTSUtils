@@ -25,7 +25,7 @@ public class ItemReader {
         return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(FTSUtils.getInstance(), key), dataType);
     }
 
-    public <T,A> void addPDC(ItemStack itemStack, String key, A thing, PersistentDataType<T,A> dataType) {
+    public static <T,A> void addPDC(ItemStack itemStack, String key, A thing, PersistentDataType<T,A> dataType) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(FTSUtils.getInstance(), key), dataType, thing);
         itemStack.setItemMeta(itemMeta);
