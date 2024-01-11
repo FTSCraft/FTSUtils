@@ -6,7 +6,7 @@
 
     <groupId>de.ftscraft</groupId>
     <artifactId>FTSUtils</artifactId>
-    <version>0.1</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>FTSUtils</name>
