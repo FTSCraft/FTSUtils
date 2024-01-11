@@ -1,0 +1,4 @@
+name: FTSUtils
+version: '${project.version}'
+main: de.ftscraft.ftsutils.FTSUtils
+api-version: '1.20'
