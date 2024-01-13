@@ -19,8 +19,8 @@ public class UUIDFetcher {
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
     private static final String NAME_URL = "https://api.mojang.com/user/profile/%s";
 
-    private static Map<String, UUID> uuidCache = new HashMap<String, UUID>();
-    private static Map<UUID, String> nameCache = new HashMap<UUID, String>();
+    private static final Map<String, UUID> uuidCache = new HashMap<String, UUID>();
+    private static final Map<String, String> nameCache = new HashMap<String, String>();
 
     public static UUID getUUID(String username) {
         if (uuidCache.containsKey(username))
@@ -50,21 +50,30 @@ public class UUIDFetcher {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(response.toString(), JsonObject.class);
 
-            // Extrahiere die "id" aus der JSON-Antwort
-            String playerId = jsonObject.get("id").getAsString();
-            UUID uuid = UUID.fromString(playerId);
-            uuidCache.put(username, uuid);
-            return uuid;
+            // Extrahiere den "name" aus der JSON-Antwort
+            String uuid = jsonObject.get("id").getAsString();
+            String formattedUUID = uuid.substring(0, 8) + "-" +
+                    uuid.substring(8, 12) + "-" +
+                    uuid.substring(12, 16) + "-" +
+                    uuid.substring(16, 20) + "-" +
+                    uuid.substring(20);
+            UUID r = UUID.fromString(formattedUUID);
+            uuidCache.put(username, r);
+            return r;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static String getName(UUID uuid) {
+        return getName(uuid.toString());
+    }
+
+    public static String getName(String uuid) {
         if (nameCache.containsKey(uuid))
             return nameCache.get(uuid);
         try {
-            URL url = new URL(String.format(NAME_URL, uuid.toString().replace("-", "")));
+            URL url = new URL(String.format(NAME_URL, uuid.replace("-", "")));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // Setze die Anfrage-Methode auf GET
