@@ -37,7 +37,8 @@ public final class FTSUtils extends JavaPlugin {
                 sender.sendMessage(uuid.toString());
                 System.out.println(uuid);
             } else if(args[0].equals("name")) {
-                String name = UUIDFetcher.getName(args[1]);
+                String name = UUIDFetcher.getName(UUID.fromString(args[1]));
+
                 sender.sendMessage(name);
                 System.out.println(name);
             }
