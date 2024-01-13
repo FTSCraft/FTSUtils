@@ -16,32 +16,28 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+
+/**
+ * Thanks to (<a href="https://gist.github.com/Jofkos/d0c469528b032d820f42">Jofkos</a>) and toohard2explain
+ */
 
 public class UUIDFetcher {
 
-    /**
-     * Date when name changes were introduced
-     * @see UUIDFetcher#getUUIDAt(String, long)
-     */
-    public static final long FEBRUARY_2015 = 1422748800000L;
+    private static final Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
-
-    private static Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
-
-    private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s?at=%d";
     private static final String NAME_URL = "https://api.mojang.com/user/profile/%s";
 
     private static final Map<String, UUID> uuidCache = new HashMap<>();
     private static final Map<UUID, String> nameCache = new HashMap<>();
 
-    private static final ExecutorService pool = Executors.newCachedThreadPool();
-
     private String name;
-    private UUID id;
 
+
+    /**
+     * Getting UUID using the Bukkit API
+     * @param name The username
+     * @return The uuid
+     */
     public static UUID getUUID(String name) {
         name = name.toLowerCase();
         UUID uuid;
