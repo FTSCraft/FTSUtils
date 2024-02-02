@@ -1,17 +1,22 @@
 package de.ftscraft.ftsutils.items;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import de.ftscraft.ftsutils.FTSUtils;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemBuilder {
 
@@ -68,6 +73,32 @@ public class ItemBuilder {
     public ItemBuilder lore(String... lore) {
         for (String s : lore) {
             lore(s);
+        }
+        return this;
+    }
+
+    public ItemBuilder skullTexture(String texture) {
+        if (itemMeta instanceof SkullMeta skullMeta) {
+            PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
+            profile.setProperty(new ProfileProperty("textures", texture));
+            skullMeta.setPlayerProfile(profile);
+            itemMeta = skullMeta;
+        }
+        return this;
+    }
+
+    public ItemBuilder skullOwner(String owner) {
+        if (itemMeta instanceof SkullMeta skullMeta) {
+            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(owner));
+            itemMeta = skullMeta;
+        }
+        return this;
+    }
+
+    public ItemBuilder skullOwner(UUID owner) {
+        if (itemMeta instanceof SkullMeta skullMeta) {
+            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(owner));
+            itemMeta = skullMeta;
         }
         return this;
     }
