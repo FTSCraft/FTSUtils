@@ -14,6 +14,8 @@ public class ItemReader {
     }
 
     public static String getSign(ItemMeta itemMeta) {
+        if (itemMeta == null)
+            return null;
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
         if (container.has(ItemBuilder.getSignKey(), PersistentDataType.STRING)) {
             return container.get(ItemBuilder.getSignKey(), PersistentDataType.STRING);

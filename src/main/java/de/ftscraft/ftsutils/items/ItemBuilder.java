@@ -109,6 +109,7 @@ public class ItemBuilder {
     }
 
     public ItemStack build() {
+        itemMeta.lore(lore);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
