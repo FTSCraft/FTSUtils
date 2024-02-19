@@ -8,13 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,6 +53,16 @@ public class ItemBuilder {
 
     public ItemBuilder enchant(Enchantment enchantment, int strength) {
         itemMeta.addEnchant(enchantment, strength, true);
+        return this;
+    }
+
+    public ItemBuilder addFlags(ItemFlag... flags){
+        itemStack.addItemFlags(flags);
+        return this;
+    }
+
+    public ItemBuilder removeFlags(ItemFlag... flags) {
+        itemStack.removeItemFlags(flags);
         return this;
     }
 

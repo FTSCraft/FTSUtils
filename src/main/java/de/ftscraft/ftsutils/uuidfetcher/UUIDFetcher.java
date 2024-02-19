@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import de.ftscraft.ftsutils.FTSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -16,6 +17,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 /**
  * Thanks to (<a href="https://gist.github.com/Jofkos/d0c469528b032d820f42">Jofkos</a>) and toohard2explain
@@ -25,7 +27,7 @@ public class UUIDFetcher {
 
     private static final Gson gson = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
-    private static final String NAME_URL = "https://api.mojang.com/user/profile/%s";
+    private static final String NAME_URL = "https://sessionserver.mojang.com/session/minecraft/profile/%s";
 
     private static final Map<String, UUID> uuidCache = new HashMap<>();
     private static final Map<UUID, String> nameCache = new HashMap<>();
@@ -60,20 +62,29 @@ public class UUIDFetcher {
      * @return The name
      */
     public static String getName(UUID uuid) {
+        System.out.println("GetName Request with UUID " + uuid.toString());
         if (nameCache.containsKey(uuid)) {
+            System.out.println("Was in cache! " + nameCache.get(uuid));
             return nameCache.get(uuid);
         }
+        String bName = Bukkit.getOfflinePlayer(uuid).getName();
+        if (bName != null) {
+            System.out.println("found by bukkit! " + bName);
+            return bName;
+        }
         try {
+            System.out.println("Doing an API Request... ");
             HttpURLConnection connection = (HttpURLConnection) new URL(String.format(NAME_URL, UUIDTypeAdapter.fromUUID(uuid))).openConnection();
             connection.setReadTimeout(5000);
             UUIDFetcher currentNameData = gson.fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDFetcher.class);
 
             uuidCache.put(currentNameData.name.toLowerCase(), uuid);
             nameCache.put(uuid, currentNameData.name);
+            System.out.println("Got name: " + currentNameData.name);
 
             return currentNameData.name;
         } catch (Exception ignore) {
-
+            FTSUtils.getInstance().getLogger().log(Level.WARNING, "Something went wrong.");
         }
 
         return null;
