@@ -5,11 +5,13 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 import de.ftscraft.ftsutils.FTSUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ColorableArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -48,6 +50,13 @@ public class ItemBuilder {
 
     public ItemBuilder name(String name) {
         itemMeta.displayName(Component.text(name));
+        return this;
+    }
+
+    public ItemBuilder color(Color color) {
+        if (itemMeta instanceof ColorableArmorMeta colorableArmorMeta) {
+            colorableArmorMeta.setColor(color);
+        }
         return this;
     }
 
