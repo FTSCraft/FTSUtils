@@ -26,7 +26,7 @@ public class ItemBuilder {
     ItemMeta itemMeta;
     List<Component> lore;
 
-    private static NamespacedKey signKey;
+    private static NamespacedKey signKey = null;
 
     public ItemBuilder(Material material) {
         this.itemStack = new ItemStack(material);
@@ -80,7 +80,9 @@ public class ItemBuilder {
     }
 
     public ItemBuilder sign(String text) {
-        itemMeta.getPersistentDataContainer().set(signKey, PersistentDataType.STRING, text);
+        if (getSignKey() == null)
+            initSignKey();
+        itemMeta.getPersistentDataContainer().set(getSignKey(), PersistentDataType.STRING, text);
         return this;
     }
 
