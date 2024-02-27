@@ -64,27 +64,22 @@ public class UUIDFetcher {
     public static String getName(UUID uuid) {
         System.out.println("GetName Request with UUID " + uuid.toString());
         if (nameCache.containsKey(uuid)) {
-            System.out.println("Was in cache! " + nameCache.get(uuid));
             return nameCache.get(uuid);
         }
         String bName = Bukkit.getOfflinePlayer(uuid).getName();
         if (bName != null) {
-            System.out.println("found by bukkit! " + bName);
             return bName;
         }
         try {
-            System.out.println("Doing an API Request... ");
             HttpURLConnection connection = (HttpURLConnection) new URL(String.format(NAME_URL, UUIDTypeAdapter.fromUUID(uuid))).openConnection();
             connection.setReadTimeout(5000);
             UUIDFetcher currentNameData = gson.fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDFetcher.class);
 
             uuidCache.put(currentNameData.name.toLowerCase(), uuid);
             nameCache.put(uuid, currentNameData.name);
-            System.out.println("Got name: " + currentNameData.name);
 
             return currentNameData.name;
         } catch (Exception ignore) {
-            FTSUtils.getInstance().getLogger().log(Level.WARNING, "Something went wrong.");
         }
 
         return null;
