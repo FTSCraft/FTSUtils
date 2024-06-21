@@ -4,6 +4,7 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import de.ftscraft.ftsutils.FTSUtils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -50,7 +51,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder name(String name) {
-        itemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize(name));
+        itemMeta.displayName(LegacyComponentSerializer.legacySection().deserialize(name).decoration(TextDecoration.ITALIC, false));
         return this;
     }
 
