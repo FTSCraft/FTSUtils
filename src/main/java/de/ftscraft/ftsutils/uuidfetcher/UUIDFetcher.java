@@ -60,7 +60,6 @@ public class UUIDFetcher {
      * @return The name
      */
     public static String getName(UUID uuid) {
-        System.out.println("GetName Request with UUID " + uuid.toString());
         if (nameCache.containsKey(uuid)) {
             return nameCache.get(uuid);
         }
