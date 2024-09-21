@@ -24,9 +24,9 @@ import java.util.UUID;
 
 public class ItemBuilder {
 
-    ItemStack itemStack;
+    final ItemStack itemStack;
     ItemMeta itemMeta;
-    List<Component> lore;
+    final List<Component> lore;
 
     private static NamespacedKey signKey = null;
 

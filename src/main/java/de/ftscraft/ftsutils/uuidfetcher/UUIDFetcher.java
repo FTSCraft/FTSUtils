@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import de.ftscraft.ftsutils.FTSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -17,7 +16,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 
 /**
  * Thanks to (<a href="https://gist.github.com/Jofkos/d0c469528b032d820f42">Jofkos</a>) and toohard2explain

@@ -6,13 +6,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemReader {
 
+    @Nullable
     public static String getSign(ItemStack itemStack) {
         return getSign(itemStack.getItemMeta());
     }
 
+    @Nullable
     public static String getSign(ItemMeta itemMeta) {
         if (itemMeta == null)
             return null;
@@ -23,6 +26,7 @@ public class ItemReader {
         return null;
     }
 
+    @Nullable
     public static <T,A> A getPDC(ItemStack itemStack, String key, PersistentDataType<T,A> dataType) {
         return itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(FTSUtils.getInstance(), key), dataType);
     }
